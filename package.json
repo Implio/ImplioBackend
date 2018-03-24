@@ -1,0 +1,16 @@
+{
+  "name": "ImplioBackend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/Implio/ImplioBackend.git",
+  "author": "Keegan Conway <conwaykc@knights.ucf.edu>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "nodemon": "^1.17.2"
+  }
+}
