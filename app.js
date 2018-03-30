@@ -7,6 +7,7 @@ const app = express();
 
 const User = require("./models/user");
 const Procedure = require("./models/procedure");
+const Patient = require("./models/patient");
 
 app.use(bodyParser.json());
 
@@ -112,7 +113,56 @@ app.delete('/procedure/:id', (req, res)=>{
   });
 });
 
+app.get('/patient', (req, res) => {
+  Patient.find({}, (err, docs)=>{
+    res.send(docs);
+  });
+});
 
+app.post('/patient', (req, res) => {
+  const body = _.pick(req.body, ['name', 'address', 'dateOfBirth', 'healthInsurance', 'phoneNumber', 'picture', 'procedures', 'Documents']);
+
+  const patient = new Patient(body);
+
+  patient.save((err, doc) => {
+    if(err)
+      return res.send(err);
+
+    res.send(doc);
+  });
+});
+
+app.patch('/patient/:id', (req, res)=>{
+  const update = _.pick(req.body, ['name', 'address', 'dateOfBirth', 'healthInsurance', 'phoneNumber', 'picture', 'procedures', 'Documents']);
+
+  Patient.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    {
+      $set: update,
+    },
+    {
+      new: true,
+    }
+  )
+  .then((doc) => {
+    res.send(doc);
+  })
+  .catch((err) => {
+    res.send(err);
+  });
+});
+
+app.delete('/patient/:id', (req, res)=>{
+  Patient.findOneAndRemove({_id: req.params.id})
+  .then((doc)=>{
+    res.send(doc);
+  })
+  .catch((err)=>{
+    res.send(err);
+  });
+});
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
