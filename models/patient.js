@@ -3,7 +3,12 @@ const _ = require('lodash');
 
 const PatientModel = new mongoose.Schema({
   name : {
-    type: String,
+    type : String,
+    required : true
+  },
+
+  roomNumber : {
+    type : String,
     required : true
   },
 

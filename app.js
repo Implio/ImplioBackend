@@ -120,7 +120,7 @@ app.get('/patient', (req, res) => {
 });
 
 app.post('/patient', (req, res) => {
-  const body = _.pick(req.body, ['name', 'address', 'dateOfBirth', 'healthInsurance', 'phoneNumber', 'picture', 'procedures', 'Documents']);
+  const body = _.pick(req.body, ['name', 'roomNumber', 'address', 'dateOfBirth', 'healthInsurance', 'phoneNumber', 'picture', 'procedures', 'Documents']);
 
   const patient = new Patient(body);
 
@@ -133,7 +133,7 @@ app.post('/patient', (req, res) => {
 });
 
 app.patch('/patient/:id', (req, res)=>{
-  const update = _.pick(req.body, ['name', 'address', 'dateOfBirth', 'healthInsurance', 'phoneNumber', 'picture', 'procedures', 'Documents']);
+  const update = _.pick(req.body, ['name', 'roomNumber', 'address', 'dateOfBirth', 'healthInsurance', 'phoneNumber', 'picture', 'procedures', 'Documents']);
 
   Patient.findOneAndUpdate(
     {
