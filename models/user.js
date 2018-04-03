@@ -2,8 +2,15 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
+const shortid = require('shortid')
 
 const UserSchema = new mongoose.Schema({
+
+  _id : {
+    type: String,
+    'default' : shortid.generate
+  },
+
   social: {
     type: String,
     required: true,
@@ -29,6 +36,26 @@ const UserSchema = new mongoose.Schema({
   lastName: {
     type: String,
     required: true,
+  },
+
+  room: {
+    type: String
+  },
+
+  schedule: {
+
+  },
+
+  hours: {
+    type: Number
+  },
+
+  shift: {
+    type: String
+  },
+
+  payment: {
+    type: Number
   },
 
   tokens: [String]
