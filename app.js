@@ -69,10 +69,11 @@ app.get('/procedures', (req, res) => {
 
 app.post('/procedures', (req, res) => {
   const body = _.pick(req.body, [
+    'patientId',
     'procedureName',
     'date',
     'category',
-    'doctorName',
+    'doctorId',
     'description',
     'documents',
   ]);
@@ -88,10 +89,11 @@ app.post('/procedures', (req, res) => {
 
 app.patch('/procedures/:id', (req, res) => {
   const update = _.pick(req.body, [
+    'patientId',
     'procedureName',
     'date',
     'category',
-    'doctorName',
+    'doctorId',
     'description',
     'documents',
   ]);
