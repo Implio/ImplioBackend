@@ -2,13 +2,12 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
-const shortid = require('shortid')
+const shortid = require('shortid');
 
 const UserSchema = new mongoose.Schema({
-
-  _id : {
+  _id: {
     type: String,
-    'default' : shortid.generate
+    default: shortid.generate,
   },
 
   social: {
@@ -39,26 +38,29 @@ const UserSchema = new mongoose.Schema({
   },
 
   room: {
-    type: String
+    type: String,
   },
 
-  schedule: {
-
-  },
+  schedule: {},
 
   hours: {
-    type: Number
+    type: Number,
   },
 
   shift: {
-    type: String
+    type: String,
   },
 
   payment: {
-    type: Number
+    type: Number,
   },
 
-  tokens: [String]
+  dob: {
+    type: Date,
+    required: true,
+  },
+
+  tokens: [String],
 });
 
 UserSchema.statics.findBySocial = function(social, password, callback) {
@@ -67,10 +69,9 @@ UserSchema.statics.findBySocial = function(social, password, callback) {
   User.findOne({ social }, (err, doc) => {
     if (!doc) return callback({ err: 'No user with that social found' });
 
-    if(bcrypt.compareSync(password, doc.password))
-      return callback(null, doc);
+    if (bcrypt.compareSync(password, doc.password)) return callback(null, doc);
 
-    return callback({message: "Password doesn't match"});
+    return callback({ message: "Password doesn't match" });
   });
 };
 
@@ -78,12 +79,12 @@ UserSchema.methods.toJSON = function() {
   const userObject = this.toObject();
 
   return _.pick(userObject, ['_id', 'title', 'firstName', 'lastName']);
-}
+};
 
-UserSchema.pre('save', function(next) { 
+UserSchema.pre('save', function(next) {
   const user = this;
 
-  if(user.isModified('password')) {
+  if (user.isModified('password')) {
     const salt = bcrypt.genSaltSync(10);
     user.password = bcrypt.hashSync(user.password, salt);
   }
