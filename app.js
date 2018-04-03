@@ -133,7 +133,8 @@ app.get('/patients', (req, res) => {
 
 app.post('/patients', (req, res) => {
   const body = _.pick(req.body, [
-    'name',
+    'firstName',
+    'lastName',
     'roomNumber',
     'address',
     'dateOfBirth',
@@ -155,7 +156,8 @@ app.post('/patients', (req, res) => {
 
 app.patch('/patients/:id', (req, res) => {
   const update = _.pick(req.body, [
-    'name',
+    'firstName',
+    'lastName',
     'roomNumber',
     'address',
     'dateOfBirth',
