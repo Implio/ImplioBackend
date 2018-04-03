@@ -5,6 +5,7 @@ const _ = require('lodash');
 
 const app = express();
 
+const {authenticate, admin} = require('./middleware/authenticate');
 const User = require('./models/user');
 const Procedure = require('./models/procedure');
 const Patient = require('./models/patient');
@@ -25,12 +26,13 @@ app.post('/login', (req, res) => {
 
 });
 
-app.get('/users', (req, res) => {
+app.get('/users', authenticate, (req, res) => {
   User.find({}, (err, docs) => {
     res.send(docs);
   });
 });
 
+//TODO ADD ADMIN PERMISSION
 app.post('/users', (req, res) => {
   const body = _.pick(req.body, ['social', 'dob', 'password', 'title', 'firstName', 'lastName']);
 
@@ -43,7 +45,7 @@ app.post('/users', (req, res) => {
   });
 });
 
-app.patch('/users/:id', (req, res) => {
+app.patch('/users/:id', authenticate, (req, res) => {
   const update = _.pick(req.body, ['social', 'dob', 'password', 'title', 'firstName', 'lastName']);
 
   User.findOneAndUpdate(
@@ -65,7 +67,7 @@ app.patch('/users/:id', (req, res) => {
     });
 });
 
-app.delete('/users/:id', (req, res) => {
+app.delete('/users/:id', admin, (req, res) => {
   User.findOneAndRemove({ _id: req.params.id })
     .then(doc => {
       res.send(doc);
@@ -75,13 +77,13 @@ app.delete('/users/:id', (req, res) => {
     });
 });
 
-app.get('/procedures', (req, res) => {
+app.get('/procedures', authenticate, (req, res) => {
   Procedure.find({}, (err, docs) => {
     res.send(docs);
   });
 });
 
-app.post('/procedures', (req, res) => {
+app.post('/procedures', authenticate, (req, res) => {
   const body = _.pick(req.body, [
     'patientId',
     'procedureName',
@@ -101,7 +103,7 @@ app.post('/procedures', (req, res) => {
   });
 });
 
-app.patch('/procedures/:id', (req, res) => {
+app.patch('/procedures/:id', authenticate, (req, res) => {
   const update = _.pick(req.body, [
     'patientId',
     'procedureName',
@@ -131,7 +133,7 @@ app.patch('/procedures/:id', (req, res) => {
     });
 });
 
-app.delete('/procedures/:id', (req, res) => {
+app.delete('/procedures/:id', admin, (req, res) => {
   Procedure.findOneAndRemove({ _id: req.params.id })
     .then(doc => {
       res.send(doc);
@@ -141,13 +143,13 @@ app.delete('/procedures/:id', (req, res) => {
     });
 });
 
-app.get('/patients', (req, res) => {
+app.get('/patients', authenticate, (req, res) => {
   Patient.find({}, (err, docs) => {
     res.send(docs);
   });
 });
 
-app.post('/patients', (req, res) => {
+app.post('/patients', authenticate, (req, res) => {
   const body = _.pick(req.body, [
     'firstName',
     'lastName',
@@ -170,7 +172,7 @@ app.post('/patients', (req, res) => {
   });
 });
 
-app.patch('/patients/:id', (req, res) => {
+app.patch('/patients/:id', authenticate, (req, res) => {
   const update = _.pick(req.body, [
     'firstName',
     'lastName',
@@ -203,7 +205,7 @@ app.patch('/patients/:id', (req, res) => {
     });
 });
 
-app.delete('/patients/:id', (req, res) => {
+app.delete('/patients/:id', admin, (req, res) => {
   Patient.findOneAndRemove({ _id: req.params.id })
     .then(doc => {
       res.send(doc);
