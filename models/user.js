@@ -10,6 +10,15 @@ const UserSchema = new mongoose.Schema({
     default: shortid.generate,
   },
 
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+
+  managerId: {
+    type: String
+  },
+
   social: {
     type: String,
     required: true,
@@ -64,7 +73,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.statics.findBySocial = function(social, password, callback) {
-  const User = this;
 
   User.findOne({ social }, (err, doc) => {
     if (!doc) return callback({ err: 'No user with that social found' });
@@ -73,6 +81,32 @@ UserSchema.statics.findBySocial = function(social, password, callback) {
 
     return callback({ message: "Password doesn't match" });
   });
+};
+
+UserSchema.statics.findByToken = function(token, callback) {
+
+  let decoded;
+
+    if (!token) return callback({ err: 'Please login' });
+
+    try {
+      decoded = jwt.verify(token, 'abc123');
+    } catch (e) {
+      return callback({ err: 'Invalid token, please try logging in again' });
+    }
+
+    User.findOne(
+      {
+        _id: decoded._id,
+        tokens: token,
+      },
+      (err, doc) => {
+        if (!doc) return callback({ message: 'Please login' });
+        if (err) return callback(err);
+
+        callback(null, doc);
+      }
+    );
 };
 
 UserSchema.methods.generateAuthToken = function() {
