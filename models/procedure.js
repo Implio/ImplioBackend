@@ -2,32 +2,32 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 
 const ProceduresModel = new mongoose.Schema({
-  procedureName : {
+  procedureName: {
     type: String,
-    required : true
+    required: true,
   },
 
-  date : {
-    type : Date,
-    retuired : true
+  date: {
+    type: Date,
+    retuired: true,
   },
 
-  category : {
-    type : String,
-    required : true
+  category: {
+    type: String,
+    required: true,
   },
 
-  doctorName : {
-    type : String,
-    required : true
+  doctorName: {
+    type: String,
+    required: true,
   },
 
-  description : {
-    type : String,
-    required : true
+  description: {
+    type: String,
+    required: true,
   },
 
-  Documents : [String]
+  documents: [String],
 });
 
 const Procedure = mongoose.model('Procedure', ProceduresModel);

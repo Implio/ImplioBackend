@@ -2,44 +2,44 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 
 const PatientModel = new mongoose.Schema({
-  name : {
-    type : String,
-    required : true
+  name: {
+    type: String,
+    required: true,
   },
 
-  roomNumber : {
-    type : String,
-    required : true
+  roomNumber: {
+    type: String,
+    required: true,
   },
 
-  address : {
-    type : String,
-    retuired : true
+  address: {
+    type: String,
+    retuired: true,
   },
 
-  dateOfBirth : {
-    type : Date,
-    required : true
+  dateOfBirth: {
+    type: Date,
+    required: true,
   },
 
-  healthInsurance : {
-    type : String,
-    required : true
+  healthInsurance: {
+    type: String,
+    required: true,
   },
 
-  phoneNumber : {
-    type : String,
-    required : true
+  phoneNumber: {
+    type: String,
+    required: true,
   },
 
-  picture : {
-    type : String,
-    required : false
+  picture: {
+    type: String,
+    required: false,
   },
 
-  procedures : [String],
+  procedures: [String],
 
-  Documents : [String]
+  documents: [String],
 });
 
 const Patient = mongoose.model('Patient', PatientModel);

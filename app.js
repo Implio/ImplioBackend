@@ -74,7 +74,7 @@ app.post('/procedures', (req, res) => {
     'category',
     'doctorName',
     'description',
-    'Documents',
+    'documents',
   ]);
 
   const procedure = new Procedure(body);
@@ -93,7 +93,7 @@ app.patch('/procedures/:id', (req, res) => {
     'category',
     'doctorName',
     'description',
-    'Documents',
+    'documents',
   ]);
 
   Procedure.findOneAndUpdate(
@@ -141,7 +141,7 @@ app.post('/patients', (req, res) => {
     'phoneNumber',
     'picture',
     'procedures',
-    'Documents',
+    'documents',
   ]);
 
   const patient = new Patient(body);
@@ -163,7 +163,7 @@ app.patch('/patients/:id', (req, res) => {
     'phoneNumber',
     'picture',
     'procedures',
-    'Documents',
+    'documents',
   ]);
 
   Patient.findOneAndUpdate(
