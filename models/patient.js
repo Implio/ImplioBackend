@@ -33,24 +33,22 @@ const PatientModel = new mongoose.Schema({
   },
 
   healthInsurance: {
-    {
-      companyName: {
-        type: String,
-        required: true,
-      },
-      memberName: {
-        type: String,
-        required: true,
-      },
-      memberId: {
-        type: String,
-        required: true,
-      },
-      groupId: {
-        type: String,
-        required: true,
-      }
-    }
+    companyName: {
+      type: String,
+      required: true,
+    },
+    memberName: {
+      type: String,
+      required: true,
+    },
+    memberId: {
+      type: String,
+      required: true,
+    },
+    groupNumber: {
+      type: String,
+      required: true,
+    },
   },
 
   phoneNumber: {
@@ -62,8 +60,6 @@ const PatientModel = new mongoose.Schema({
     type: String,
     required: false,
   },
-
-  procedures: [String],
 
   documents: [String],
 });
