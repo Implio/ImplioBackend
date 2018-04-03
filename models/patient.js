@@ -27,7 +27,7 @@ const PatientModel = new mongoose.Schema({
     retuired: true,
   },
 
-  dateOfBirth: {
+  dob: {
     type: Date,
     required: true,
   },
