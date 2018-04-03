@@ -18,7 +18,7 @@ app.get('/users', (req, res) => {
 });
 
 app.post('/users', (req, res) => {
-  const body = _.pick(req.body, ['social', 'password', 'title', 'firstName', 'lastName']);
+  const body = _.pick(req.body, ['social', 'dob', 'password', 'title', 'firstName', 'lastName']);
 
   const user = new User(body);
 
@@ -30,7 +30,7 @@ app.post('/users', (req, res) => {
 });
 
 app.patch('/users/:id', (req, res) => {
-  const update = _.pick(req.body, ['social', 'password', 'title', 'firstName', 'lastName']);
+  const update = _.pick(req.body, ['social', 'dob', 'password', 'title', 'firstName', 'lastName']);
 
   User.findOneAndUpdate(
     {
