@@ -75,10 +75,20 @@ UserSchema.statics.findBySocial = function(social, password, callback) {
   });
 };
 
+UserSchema.methods.generateAuthToken = function() {
+  const user = this;
+  const token = jwt.sign({ _id: user._id }, 'abc123').toString();
+
+  user.tokens.push(token);
+  user.save();
+
+  return token;
+};
+
 UserSchema.methods.toJSON = function() {
   const userObject = this.toObject();
 
-  return _.pick(userObject, ['_id', 'title', 'firstName', 'lastName']);
+  return _.pick(userObject, ['_id', 'title', 'firstName', 'lastName', 'dob']);
 };
 
 UserSchema.pre('save', function(next) {

@@ -11,6 +11,20 @@ const Patient = require('./models/patient');
 
 app.use(bodyParser.json());
 
+app.post('/login', (req, res) => {
+  const body = _.pick(req.body, ['social', 'password']);
+
+  User.findBySocial(body.social, body.password, (err, doc) => {
+    if(err)
+      return res.status(401).send(err);
+
+    const token = doc.generateAuthToken();
+
+    res.send({ token });
+  });
+
+});
+
 app.get('/users', (req, res) => {
   User.find({}, (err, docs) => {
     res.send(docs);
