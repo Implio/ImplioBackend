@@ -17,6 +17,11 @@ const PatientModel = new mongoose.Schema({
     required: true,
   },
 
+  buildingNumber: {
+    type: String,
+    required: true,
+  },
+
   address: {
     type: String,
     retuired: true,
