@@ -1,0 +1,299 @@
+{
+	"info": {
+		"name": "Implio",
+		"_postman_id": "fb18e409-b89e-9fcc-e97b-65a5e12c684a",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/users",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"social\": \"1471\",\n\t\"password\": \"mxermxer\",\n\t\"title\": \"Neurologist\",\n\t\"firstName\": \"Ale\",\n\t\"lastName\": \"Vecchi\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/users/:id",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\": \"Alessandro\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/users/5ac3a4e32ce2d10aa7f9e28b",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"5ac3a4e32ce2d10aa7f9e28b"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/users/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/users/5ac3a4e32ce2d10aa7f9e28b",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"5ac3a4e32ce2d10aa7f9e28b"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/procedures",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/procedures",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"procedures"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/procedures",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"procedureName\": \"Brain surgery\",\n\t\"date\": \"2018-05-03\",\n\t\"category\": \"Neurology\",\n\t\"doctorName\": \"Turk\",\n\t\"description\": \"Removal of brain tissue\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/procedures",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"procedures"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/procedures/:id",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"documents\": [\"brain.png\"]\n}"
+				},
+				"url": {
+					"raw": "{{url}}/procedures/5ac3abeca4034a0c584930e9",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"procedures",
+						"5ac3abeca4034a0c584930e9"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/procedures/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/procedures/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"procedures",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/patients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/patients",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"patients"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/patients",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\": \"John\",\n\t\"lastName\": \"Smith\",\n\t\"dob\": \"1995-10-10\",\n\t\"roomNumber\": \"102\",\n\t\"buildingNumber\": \"12\",\n\t\"address\": \"12345 West Bimbleton\",\n\t\"healthInsurance\": {\n\t\t\"companyName\": \"Florida Blue\",\n\t\t\"memberName\": \"John Smith\",\n\t\t\"memberId\": \"123715172\",\n\t\t\"groupNumber\": \"79650917835\" \n\t},\n\t\"phoneNumber\": \"123124122\",\n\t\"procedures\": [],\n\t\"documents\": []\n}"
+				},
+				"url": {
+					"raw": "{{url}}/patients",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"patients"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/patients/:id",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n}"
+				},
+				"url": {
+					"raw": "{{url}}/patients",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"patients"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/patients/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/patients/5ac3b35873a45d0ea24afd76",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"patients",
+						"5ac3b35873a45d0ea24afd76"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
