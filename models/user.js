@@ -80,7 +80,7 @@ UserSchema.methods.toJSON = function() {
   return _.pick(userObject, ['_id', 'title', 'firstName', 'lastName']);
 }
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function(next) { 
   const user = this;
 
   if(user.isModified('password')) {
