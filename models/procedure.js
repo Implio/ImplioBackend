@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 
 const ProceduresModel = new mongoose.Schema({
+  patientId: {
+    type: String,
+    required: true,
+  },
+
   procedureName: {
     type: String,
     required: true,
@@ -17,7 +22,7 @@ const ProceduresModel = new mongoose.Schema({
     required: true,
   },
 
-  doctorName: {
+  doctorId: {
     type: String,
     required: true,
   },
