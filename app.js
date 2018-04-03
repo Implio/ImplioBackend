@@ -144,7 +144,6 @@ app.post('/patients', (req, res) => {
     'healthInsurance',
     'phoneNumber',
     'picture',
-    'procedures',
     'documents',
   ]);
 
@@ -168,7 +167,6 @@ app.patch('/patients/:id', (req, res) => {
     'healthInsurance',
     'phoneNumber',
     'picture',
-    'procedures',
     'documents',
   ]);
 
