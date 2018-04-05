@@ -5,25 +5,26 @@ const _ = require('lodash');
 
 const app = express();
 
-const {authenticate, admin} = require('./middleware/authenticate');
+const { authenticate, admin } = require('./middleware/authenticate');
+const cors = require('./middleware/cors');
+
 const User = require('./models/user');
 const Procedure = require('./models/procedure');
 const Patient = require('./models/patient');
 
 app.use(bodyParser.json());
+app.use(cors);
 
 app.post('/login', (req, res) => {
   const body = _.pick(req.body, ['social', 'password']);
 
   User.findBySocial(body.social, body.password, (err, doc) => {
-    if(err)
-      return res.status(401).send(err);
+    if (err) return res.status(401).send(err);
 
     const token = doc.generateAuthToken();
 
     res.send({ token });
   });
-
 });
 
 app.get('/users', authenticate, (req, res) => {
@@ -34,7 +35,14 @@ app.get('/users', authenticate, (req, res) => {
 
 //TODO ADD ADMIN PERMISSION
 app.post('/users', (req, res) => {
-  const body = _.pick(req.body, ['social', 'dob', 'password', 'title', 'firstName', 'lastName']);
+  const body = _.pick(req.body, [
+    'social',
+    'dob',
+    'password',
+    'title',
+    'firstName',
+    'lastName',
+  ]);
 
   const user = new User(body);
 
@@ -46,7 +54,14 @@ app.post('/users', (req, res) => {
 });
 
 app.patch('/users/:id', authenticate, (req, res) => {
-  const update = _.pick(req.body, ['social', 'dob', 'password', 'title', 'firstName', 'lastName']);
+  const update = _.pick(req.body, [
+    'social',
+    'dob',
+    'password',
+    'title',
+    'firstName',
+    'lastName',
+  ]);
 
   User.findOneAndUpdate(
     {
@@ -57,7 +72,7 @@ app.patch('/users/:id', authenticate, (req, res) => {
     },
     {
       new: true,
-    }
+    },
   )
     .then(doc => {
       res.send(doc);
@@ -123,7 +138,7 @@ app.patch('/procedures/:id', authenticate, (req, res) => {
     },
     {
       new: true,
-    }
+    },
   )
     .then(doc => {
       res.send(doc);
@@ -195,7 +210,7 @@ app.patch('/patients/:id', authenticate, (req, res) => {
     },
     {
       new: true,
-    }
+    },
   )
     .then(doc => {
       res.send(doc);
