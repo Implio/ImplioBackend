@@ -12,11 +12,11 @@ const UserSchema = new mongoose.Schema({
 
   isAdmin: {
     type: Boolean,
-    default: false
+    default: false,
   },
 
   managerId: {
-    type: String
+    type: String,
   },
 
   social: {
@@ -73,40 +73,38 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.statics.findBySocial = function(social, password, callback) {
-
   User.findOne({ social }, (err, doc) => {
-    if (!doc) return callback({ err: 'No user with that social found' });
+    if (!doc) return callback({ error: 'No user with that social found' });
 
     if (bcrypt.compareSync(password, doc.password)) return callback(null, doc);
 
-    return callback({ message: "Password doesn't match" });
+    return callback({ error: 'Password or social is incorrect' });
   });
 };
 
 UserSchema.statics.findByToken = function(token, callback) {
-
   let decoded;
 
-    if (!token) return callback({ err: 'Please login' });
+  if (!token) return callback({ error: 'Please login' });
 
-    try {
-      decoded = jwt.verify(token, 'abc123');
-    } catch (e) {
-      return callback({ err: 'Invalid token, please try logging in again' });
-    }
+  try {
+    decoded = jwt.verify(token, 'abc123');
+  } catch (e) {
+    return callback({ err: 'Invalid token, please try logging in again' });
+  }
 
-    User.findOne(
-      {
-        _id: decoded._id,
-        tokens: token,
-      },
-      (err, doc) => {
-        if (!doc) return callback({ message: 'Please login' });
-        if (err) return callback(err);
+  User.findOne(
+    {
+      _id: decoded._id,
+      tokens: token,
+    },
+    (err, doc) => {
+      if (!doc) return callback({ error: 'Please login' });
+      if (err) return callback(err);
 
-        callback(null, doc);
-      }
-    );
+      callback(null, doc);
+    },
+  );
 };
 
 UserSchema.methods.generateAuthToken = function() {
@@ -117,6 +115,18 @@ UserSchema.methods.generateAuthToken = function() {
   user.save();
 
   return token;
+};
+
+UserSchema.methods.removeToken = function(token) {
+  const user = this;
+
+  return user.update({
+    $pull: {
+      tokens: {
+        token,
+      },
+    },
+  });
 };
 
 UserSchema.methods.toJSON = function() {

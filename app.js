@@ -19,12 +19,23 @@ app.post('/login', (req, res) => {
   const body = _.pick(req.body, ['social', 'password']);
 
   User.findBySocial(body.social, body.password, (err, doc) => {
-    if (err) return res.status(401).send(err);
+    if (err) return res.send(err);
 
     const token = doc.generateAuthToken();
 
     res.send({ token });
   });
+});
+
+app.delete('/logout', authenticate, (req, res) => {
+  req.user
+    .removeToken(req.token)
+    .then(() => {
+      res.status(200).send('Successfully logged out');
+    })
+    .catch(e => {
+      res.status(400).send(e);
+    });
 });
 
 app.get('/users', authenticate, (req, res) => {
