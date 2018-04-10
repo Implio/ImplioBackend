@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
+const shortid = require('shortid');
 const _ = require('lodash');
 
 const PatientModel = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: shortid.generate,
+  },
+
   firstName: {
     type: String,
     required: true,
