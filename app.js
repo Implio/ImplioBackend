@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('./db/mongoose');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+const path = require('path');
 const _ = require('lodash');
 
 const app = express();
@@ -12,8 +14,12 @@ const User = require('./models/user');
 const Procedure = require('./models/procedure');
 const Patient = require('./models/patient');
 
+const FILES_DIR = path.join(__dirname, './files');
+
 app.use(bodyParser.json());
+app.use(fileUpload());
 app.use(cors);
+app.use('/files', express.static(FILES_DIR));
 
 app.post('/login', (req, res) => {
   const body = _.pick(req.body, ['social', 'password']);
@@ -36,6 +42,20 @@ app.delete('/logout', authenticate, (req, res) => {
     .catch(e => {
       res.status(400).send(e);
     });
+});
+
+app.post('/files', (req, res) => {
+  if (!req.files) return res.status(400).send('No files were uploaded.');
+
+  const file = req.files.file;
+  file.mv(path.join(FILES_DIR, file.name), err => {
+    if (err) return res.send({ err });
+
+    res.send({
+      message: 'File uploaded successfully',
+      filename: file.name,
+    });
+  });
 });
 
 app.get('/me', authenticate, (req, res) => {
