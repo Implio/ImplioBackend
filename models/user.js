@@ -130,7 +130,14 @@ UserSchema.methods.removeToken = function(token) {
 UserSchema.methods.toJSON = function() {
   const userObject = this.toObject();
 
-  return _.pick(userObject, ['_id', 'title', 'firstName', 'lastName', 'dob']);
+  return _.pick(userObject, [
+    '_id',
+    'title',
+    'firstName',
+    'lastName',
+    'dob',
+    'isAdmin',
+  ]);
 };
 
 UserSchema.pre('save', function(next) {

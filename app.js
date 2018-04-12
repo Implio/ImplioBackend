@@ -38,6 +38,10 @@ app.delete('/logout', authenticate, (req, res) => {
     });
 });
 
+app.get('/me', authenticate, (req, res) => {
+  res.send(req.user);
+});
+
 app.get('/users', authenticate, (req, res) => {
   User.find({}, (err, docs) => {
     res.send(docs);
@@ -53,6 +57,7 @@ app.post('/users', (req, res) => {
     'title',
     'firstName',
     'lastName',
+    'isAdmin',
   ]);
 
   const user = new User(body);
@@ -64,7 +69,7 @@ app.post('/users', (req, res) => {
   });
 });
 
-app.patch('/users/:id', authenticate, (req, res) => {
+app.patch('/users/:id', admin, (req, res) => {
   const update = _.pick(req.body, [
     'social',
     'dob',
@@ -72,6 +77,7 @@ app.patch('/users/:id', authenticate, (req, res) => {
     'title',
     'firstName',
     'lastName',
+    'isAdmin',
   ]);
 
   User.findOneAndUpdate(
