@@ -33,6 +33,11 @@ const PatientModel = new mongoose.Schema({
     retuired: true,
   },
 
+  social: {
+    type: String,
+    retuired: true,
+  },
+
   dob: {
     type: Date,
     required: true,
