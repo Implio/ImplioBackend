@@ -78,6 +78,8 @@ app.post('/users', (req, res) => {
     'firstName',
     'lastName',
     'isAdmin',
+    'room',
+    'managerId'
   ]);
 
   const user = new User(body);
@@ -97,19 +99,19 @@ app.patch('/users/:id', admin, (req, res) => {
     'title',
     'firstName',
     'lastName',
-    'isAdmin',
+    'isAdmin'
   ]);
 
   User.findOneAndUpdate(
     {
-      _id: req.params.id,
+      _id: req.params.id
     },
     {
-      $set: update,
+      $set: update
     },
     {
-      new: true,
-    },
+      new: true
+    }
   )
     .then(doc => {
       res.send(doc);
@@ -143,7 +145,7 @@ app.post('/procedures', authenticate, (req, res) => {
     'category',
     'doctorId',
     'description',
-    'documents',
+    'documents'
   ]);
 
   const procedure = new Procedure(body);
@@ -163,19 +165,19 @@ app.patch('/procedures/:id', authenticate, (req, res) => {
     'category',
     'doctorId',
     'description',
-    'documents',
+    'documents'
   ]);
 
   Procedure.findOneAndUpdate(
     {
-      _id: req.params.id,
+      _id: req.params.id
     },
     {
-      $set: update,
+      $set: update
     },
     {
-      new: true,
-    },
+      new: true
+    }
   )
     .then(doc => {
       res.send(doc);
@@ -213,7 +215,7 @@ app.post('/patients', authenticate, (req, res) => {
     'healthInsurance',
     'phoneNumber',
     'picture',
-    'documents',
+    'documents'
   ]);
 
   const patient = new Patient(body);
@@ -237,19 +239,19 @@ app.patch('/patients/:id', authenticate, (req, res) => {
     'healthInsurance',
     'phoneNumber',
     'picture',
-    'documents',
+    'documents'
   ]);
 
   Patient.findOneAndUpdate(
     {
-      _id: req.params.id,
+      _id: req.params.id
     },
     {
-      $set: update,
+      $set: update
     },
     {
-      new: true,
-    },
+      new: true
+    }
   )
     .then(doc => {
       res.send(doc);
