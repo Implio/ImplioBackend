@@ -69,7 +69,7 @@ const PatientModel = new mongoose.Schema({
 
   picture: {
     type: String,
-    required: false,
+    default: null,
   },
 
   documents: [String],
