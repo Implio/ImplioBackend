@@ -7,69 +7,65 @@ const shortid = require('shortid');
 const UserSchema = new mongoose.Schema({
   _id: {
     type: String,
-    default: shortid.generate,
+    default: shortid.generate
   },
 
   isAdmin: {
     type: Boolean,
-    default: false,
+    default: false
   },
 
   managerId: {
-    type: String,
+    type: String
   },
 
   social: {
     type: String,
     required: true,
-    minlength: 4,
+    minlength: 4
   },
 
   password: {
     type: String,
     required: true,
-    minlength: 4,
+    minlength: 4
   },
 
   title: {
     type: String,
-    required: true,
+    required: true
   },
 
   firstName: {
     type: String,
-    required: true,
+    required: true
   },
 
   lastName: {
     type: String,
-    required: true,
+    required: true
   },
 
   room: {
-    type: String,
+    type: String
   },
 
   schedule: {},
 
   hours: {
-    type: Number,
+    type: Number
   },
 
   shift: {
-    type: String,
-  },
-
-  payment: {
-    type: Number,
+    type: String
   },
 
   dob: {
     type: Date,
-    required: true,
+    required: true
   },
 
-  tokens: [String],
+  tokens: [String]
 });
 
 UserSchema.statics.findBySocial = function(social, password, callback) {
@@ -96,14 +92,14 @@ UserSchema.statics.findByToken = function(token, callback) {
   User.findOne(
     {
       _id: decoded._id,
-      tokens: token,
+      tokens: token
     },
     (err, doc) => {
       if (!doc) return callback({ error: 'Please login' });
       if (err) return callback(err);
 
       callback(null, doc);
-    },
+    }
   );
 };
 
@@ -122,8 +118,8 @@ UserSchema.methods.removeToken = function(token) {
 
   return user.update({
     $pull: {
-      tokens: token,
-    },
+      tokens: token
+    }
   });
 };
 
@@ -136,7 +132,12 @@ UserSchema.methods.toJSON = function() {
     'firstName',
     'lastName',
     'dob',
+    'managerId',
     'isAdmin',
+    'room',
+    'schedule',
+    'hours',
+    'shift'
   ]);
 };
 
