@@ -3,6 +3,7 @@ const mongoose = require('./db/mongoose');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 
 const app = express();
@@ -74,12 +75,15 @@ app.post('/users', (req, res) => {
     'social',
     'dob',
     'password',
+    'picture',
     'title',
     'firstName',
     'lastName',
     'isAdmin',
-    'room',
-    'managerId'
+    'isDoctor',
+    'roomNumber',
+    'buildingNumber',
+    'managerId',
   ]);
 
   const user = new User(body);
@@ -96,22 +100,32 @@ app.patch('/users/:id', admin, (req, res) => {
     'social',
     'dob',
     'password',
+    'picture',
     'title',
     'firstName',
     'lastName',
-    'isAdmin'
+    'isAdmin',
+    'isDoctor',
+    'roomNumber',
+    'buildingNumber',
+    'managerId',
   ]);
+
+  if (update.password) {
+    const salt = bcrypt.genSaltSync(10);
+    update.password = bcrypt.hashSync(update.password, salt);
+  }
 
   User.findOneAndUpdate(
     {
-      _id: req.params.id
+      _id: req.params.id,
     },
     {
-      $set: update
+      $set: update,
     },
     {
-      new: true
-    }
+      new: true,
+    },
   )
     .then(doc => {
       res.send(doc);
@@ -145,7 +159,7 @@ app.post('/procedures', authenticate, (req, res) => {
     'category',
     'doctorId',
     'description',
-    'documents'
+    'documents',
   ]);
 
   const procedure = new Procedure(body);
@@ -165,19 +179,19 @@ app.patch('/procedures/:id', authenticate, (req, res) => {
     'category',
     'doctorId',
     'description',
-    'documents'
+    'documents',
   ]);
 
   Procedure.findOneAndUpdate(
     {
-      _id: req.params.id
+      _id: req.params.id,
     },
     {
-      $set: update
+      $set: update,
     },
     {
-      new: true
-    }
+      new: true,
+    },
   )
     .then(doc => {
       res.send(doc);
@@ -211,11 +225,13 @@ app.post('/patients', authenticate, (req, res) => {
     'buildingNumber',
     'address',
     'dob',
+    'primaryPhysician',
+    'consultingPhysician',
     'social',
     'healthInsurance',
     'phoneNumber',
     'picture',
-    'documents'
+    'documents',
   ]);
 
   const patient = new Patient(body);
@@ -235,23 +251,25 @@ app.patch('/patients/:id', authenticate, (req, res) => {
     'buildingNumber',
     'address',
     'dob',
+    'primaryPhysician',
+    'consultingPhysician',
     'social',
     'healthInsurance',
     'phoneNumber',
     'picture',
-    'documents'
+    'documents',
   ]);
 
   Patient.findOneAndUpdate(
     {
-      _id: req.params.id
+      _id: req.params.id,
     },
     {
-      $set: update
+      $set: update,
     },
     {
-      new: true
-    }
+      new: true,
+    },
   )
     .then(doc => {
       res.send(doc);

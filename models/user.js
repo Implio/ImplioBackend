@@ -7,65 +7,79 @@ const shortid = require('shortid');
 const UserSchema = new mongoose.Schema({
   _id: {
     type: String,
-    default: shortid.generate
+    default: shortid.generate,
   },
 
   isAdmin: {
     type: Boolean,
-    default: false
+    default: false,
+  },
+
+  isDoctor: {
+    type: Boolean,
+    default: false,
   },
 
   managerId: {
-    type: String
+    type: String,
+    default: null,
   },
 
   social: {
     type: String,
     required: true,
-    minlength: 4
+    minlength: 4,
+  },
+
+  dob: {
+    type: Date,
+    required: true,
   },
 
   password: {
     type: String,
     required: true,
-    minlength: 4
+    minlength: 4,
   },
 
   title: {
     type: String,
-    required: true
+    required: true,
   },
 
   firstName: {
     type: String,
-    required: true
+    required: true,
   },
 
   lastName: {
     type: String,
-    required: true
+    required: true,
   },
 
-  room: {
-    type: String
+  picture: {
+    type: String,
+    default: null,
+  },
+
+  roomNumber: {
+    type: String,
+    required: true,
+  },
+
+  buildingNumber: {
+    type: String,
+    required: true,
   },
 
   schedule: {},
 
   hours: {
-    type: Number
+    type: Number,
+    default: 0,
   },
 
-  shift: {
-    type: String
-  },
-
-  dob: {
-    type: Date,
-    required: true
-  },
-
-  tokens: [String]
+  tokens: [String],
 });
 
 UserSchema.statics.findBySocial = function(social, password, callback) {
@@ -92,14 +106,14 @@ UserSchema.statics.findByToken = function(token, callback) {
   User.findOne(
     {
       _id: decoded._id,
-      tokens: token
+      tokens: token,
     },
     (err, doc) => {
       if (!doc) return callback({ error: 'Please login' });
       if (err) return callback(err);
 
       callback(null, doc);
-    }
+    },
   );
 };
 
@@ -118,8 +132,8 @@ UserSchema.methods.removeToken = function(token) {
 
   return user.update({
     $pull: {
-      tokens: token
-    }
+      tokens: token,
+    },
   });
 };
 
@@ -128,16 +142,19 @@ UserSchema.methods.toJSON = function() {
 
   return _.pick(userObject, [
     '_id',
+    'social',
     'title',
     'firstName',
     'lastName',
     'dob',
     'managerId',
     'isAdmin',
-    'room',
+    'isDoctor',
+    'roomNumber',
+    'buildingNumber',
     'schedule',
+    'picture',
     'hours',
-    'shift'
   ]);
 };
 

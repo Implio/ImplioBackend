@@ -43,6 +43,14 @@ const PatientModel = new mongoose.Schema({
     required: true,
   },
 
+  primaryPhysician: {
+    type: String,
+  },
+
+  consultingPhysician: {
+    type: String,
+  },
+
   healthInsurance: {
     companyName: {
       type: String,
