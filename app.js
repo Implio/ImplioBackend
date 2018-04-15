@@ -80,7 +80,7 @@ app.post('/users', (req, res) => {
     'firstName',
     'lastName',
     'isAdmin',
-    'isDoctor',
+    'type',
     'roomNumber',
     'buildingNumber',
     'managerId',
@@ -105,7 +105,7 @@ app.patch('/users/:id', admin, (req, res) => {
     'firstName',
     'lastName',
     'isAdmin',
-    'isDoctor',
+    'type',
     'roomNumber',
     'buildingNumber',
     'managerId',
@@ -228,11 +228,14 @@ app.post('/patients', authenticate, (req, res) => {
     'primaryPhysician',
     'consultingPhysician',
     'social',
+    'active',
     'healthInsurance',
     'phoneNumber',
     'picture',
     'documents',
   ]);
+
+  if (body.active) body.activeSince = new Date();
 
   const patient = new Patient(body);
 
@@ -254,11 +257,16 @@ app.patch('/patients/:id', authenticate, (req, res) => {
     'primaryPhysician',
     'consultingPhysician',
     'social',
+    'active',
     'healthInsurance',
     'phoneNumber',
     'picture',
     'documents',
   ]);
+
+  if (!update.active) update.activeSince = null;
+
+  if (update.active && !update.activeSince) update.activeSince = new Date();
 
   Patient.findOneAndUpdate(
     {

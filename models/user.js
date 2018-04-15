@@ -15,9 +15,9 @@ const UserSchema = new mongoose.Schema({
     default: false,
   },
 
-  isDoctor: {
-    type: Boolean,
-    default: false,
+  type: {
+    type: String,
+    required: true,
   },
 
   managerId: {
@@ -149,7 +149,7 @@ UserSchema.methods.toJSON = function() {
     'dob',
     'managerId',
     'isAdmin',
-    'isDoctor',
+    'type',
     'roomNumber',
     'buildingNumber',
     'schedule',

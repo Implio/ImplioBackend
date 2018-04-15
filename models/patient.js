@@ -8,6 +8,16 @@ const PatientModel = new mongoose.Schema({
     default: shortid.generate,
   },
 
+  active: {
+    type: Boolean,
+    default: false,
+  },
+
+  activeSince: {
+    type: Date,
+    default: null,
+  },
+
   firstName: {
     type: String,
     required: true,
@@ -20,12 +30,10 @@ const PatientModel = new mongoose.Schema({
 
   roomNumber: {
     type: String,
-    required: true,
   },
 
   buildingNumber: {
     type: String,
-    required: true,
   },
 
   address: {
