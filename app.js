@@ -14,6 +14,7 @@ const cors = require('./middleware/cors');
 const User = require('./models/user');
 const Procedure = require('./models/procedure');
 const Patient = require('./models/patient');
+const Message = require('./models/message');
 
 const FILES_DIR = path.join(__dirname, './files');
 
@@ -54,7 +55,7 @@ app.post('/files', (req, res) => {
 
     res.send({
       message: 'File uploaded successfully',
-      filename: file.name,
+      filename: file.name
     });
   });
 });
@@ -295,6 +296,30 @@ app.delete('/patients/:id', admin, (req, res) => {
     .catch(err => {
       res.send(err);
     });
+});
+
+app.post('/messages', (req, res) => {
+  const body = _.pick(req.body, [
+    'date',
+    'time',
+    'message',
+    'fromUserId',
+    'toUserId'
+  ]);
+
+  const message = new Message(body);
+
+  message.save((err, doc) => {
+    if (err) return res.send(err);
+
+    res.send(doc);
+  });
+});
+
+app.get('/messages', authenticate, (req, res) => {
+  Message.find({}, (err, docs) => {
+    res.send(docs);
+  });
 });
 
 app.listen(3000, () => {
