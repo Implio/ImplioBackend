@@ -148,7 +148,7 @@ app.delete('/users/:id', admin, (req, res) => {
 
 app.get('/procedures', authenticate, (req, res) => {
   Procedure.find({}, (err, docs) => {
-    res.send(docs);
+    res.send(docs.reverse());
   });
 });
 
@@ -300,7 +300,6 @@ app.delete('/patients/:id', admin, (req, res) => {
 
 app.post('/messages', authenticate, (req, res) => {
   const body = _.pick(req.body, ['message', 'toUserId']);
-
   const message = new Message(body);
 
   message.date = new Date();

@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 
 const ProceduresModel = new mongoose.Schema({
+  paid: {
+    type: Boolean,
+    default: false,
+  },
+
   patientId: {
     type: String,
     required: true,
