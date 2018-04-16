@@ -146,6 +146,20 @@ app.delete('/users/:id', admin, (req, res) => {
     });
 });
 
+app.post('/hours', authenticate, (req, res) => {
+  const body = _.pick(req.body, ['title', 'start', 'end']);
+
+  User.findOne({ _id: req.user._id })
+    .then(user => {
+      user.hours.push(body);
+
+      user.save();
+
+      res.send(user);
+    })
+    .catch(err => res.send(err));
+});
+
 app.get('/procedures', authenticate, (req, res) => {
   Procedure.find({}, (err, docs) => {
     res.send(docs.reverse());
@@ -154,6 +168,7 @@ app.get('/procedures', authenticate, (req, res) => {
 
 app.post('/procedures', authenticate, (req, res) => {
   const body = _.pick(req.body, [
+    'paid',
     'patientId',
     'procedureName',
     'date',
@@ -174,6 +189,7 @@ app.post('/procedures', authenticate, (req, res) => {
 
 app.patch('/procedures/:id', authenticate, (req, res) => {
   const update = _.pick(req.body, [
+    'paid',
     'patientId',
     'procedureName',
     'date',
@@ -300,14 +316,11 @@ app.delete('/patients/:id', admin, (req, res) => {
     });
 });
 
-app.post('/messages', (req, res) => {
-  const body = _.pick(req.body, [
-    'date',
-    'time',
-    'message',
-    'fromUserId',
-    'toUserId',
-  ]);
+app.post('/messages', authenticate, (req, res) => {
+  const body = _.pick(req.body, ['message', 'toUserId']);
+
+  body.fromUserId = req.user._id;
+  body.date = new Date();
 
   const message = new Message(body);
 

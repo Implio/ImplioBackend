@@ -72,12 +72,29 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
 
-  schedule: {},
+  hours: [
+    {
+      paid: {
+        type: Boolean,
+        default: false,
+      },
 
-  hours: {
-    type: Number,
-    default: 0,
-  },
+      title: {
+        type: String,
+        default: 'Hours',
+      },
+
+      start: {
+        type: Date,
+        required: true,
+      },
+
+      end: {
+        type: Date,
+        required: true,
+      },
+    },
+  ],
 
   tokens: [String],
 });
@@ -152,7 +169,6 @@ UserSchema.methods.toJSON = function() {
     'type',
     'roomNumber',
     'buildingNumber',
-    'schedule',
     'picture',
     'hours',
   ]);
