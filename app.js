@@ -55,7 +55,7 @@ app.post('/files', (req, res) => {
 
     res.send({
       message: 'File uploaded successfully',
-      filename: file.name
+      filename: file.name,
     });
   });
 });
@@ -84,7 +84,7 @@ app.post('/users', (req, res) => {
     'type',
     'roomNumber',
     'buildingNumber',
-    'managerId'
+    'managerId',
   ]);
 
   const user = new User(body);
@@ -109,7 +109,7 @@ app.patch('/users/:id', admin, (req, res) => {
     'type',
     'roomNumber',
     'buildingNumber',
-    'managerId'
+    'managerId',
   ]);
 
   if (update.password) {
@@ -119,14 +119,14 @@ app.patch('/users/:id', admin, (req, res) => {
 
   User.findOneAndUpdate(
     {
-      _id: req.params.id
+      _id: req.params.id,
     },
     {
-      $set: update
+      $set: update,
     },
     {
-      new: true
-    }
+      new: true,
+    },
   )
     .then(doc => {
       res.send(doc);
@@ -160,7 +160,7 @@ app.post('/procedures', authenticate, (req, res) => {
     'category',
     'doctorId',
     'description',
-    'documents'
+    'documents',
   ]);
 
   const procedure = new Procedure(body);
@@ -180,19 +180,19 @@ app.patch('/procedures/:id', authenticate, (req, res) => {
     'category',
     'doctorId',
     'description',
-    'documents'
+    'documents',
   ]);
 
   Procedure.findOneAndUpdate(
     {
-      _id: req.params.id
+      _id: req.params.id,
     },
     {
-      $set: update
+      $set: update,
     },
     {
-      new: true
-    }
+      new: true,
+    },
   )
     .then(doc => {
       res.send(doc);
@@ -230,10 +230,11 @@ app.post('/patients', authenticate, (req, res) => {
     'consultingPhysician',
     'social',
     'active',
+    'activeSince',
     'healthInsurance',
     'phoneNumber',
     'picture',
-    'documents'
+    'documents',
   ]);
 
   if (body.active) body.activeSince = new Date();
@@ -259,10 +260,11 @@ app.patch('/patients/:id', authenticate, (req, res) => {
     'consultingPhysician',
     'social',
     'active',
+    'activeSince',
     'healthInsurance',
     'phoneNumber',
     'picture',
-    'documents'
+    'documents',
   ]);
 
   if (!update.active) update.activeSince = null;
@@ -271,14 +273,14 @@ app.patch('/patients/:id', authenticate, (req, res) => {
 
   Patient.findOneAndUpdate(
     {
-      _id: req.params.id
+      _id: req.params.id,
     },
     {
-      $set: update
+      $set: update,
     },
     {
-      new: true
-    }
+      new: true,
+    },
   )
     .then(doc => {
       res.send(doc);
@@ -298,12 +300,16 @@ app.delete('/patients/:id', admin, (req, res) => {
     });
 });
 
-app.post('/messages', authenticate, (req, res) => {
-  const body = _.pick(req.body, ['message', 'toUserId']);
-  const message = new Message(body);
+app.post('/messages', (req, res) => {
+  const body = _.pick(req.body, [
+    'date',
+    'time',
+    'message',
+    'fromUserId',
+    'toUserId',
+  ]);
 
-  message.date = new Date();
-  message.fromUserId = req.user._id;
+  const message = new Message(body);
 
   message.save((err, doc) => {
     if (err) return res.send(err);
@@ -313,12 +319,9 @@ app.post('/messages', authenticate, (req, res) => {
 });
 
 app.get('/messages', authenticate, (req, res) => {
-  Message.find(
-    { $or: [{ fromUserId: req.user._id }, { toUserId: req.user._id }] },
-    (err, docs) => {
-      res.send(docs);
-    }
-  );
+  Message.find({}, (err, docs) => {
+    res.send(docs);
+  });
 });
 
 app.listen(3000, () => {

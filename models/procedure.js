@@ -19,7 +19,7 @@ const ProceduresModel = new mongoose.Schema({
 
   date: {
     type: Date,
-    retuired: true,
+    required: true,
   },
 
   category: {
