@@ -55,7 +55,7 @@ app.post('/files', (req, res) => {
 
     res.send({
       message: 'File uploaded successfully',
-      filename: file.name
+      filename: file.name,
     });
   });
 });
@@ -148,7 +148,7 @@ app.delete('/users/:id', admin, (req, res) => {
 
 app.get('/procedures', authenticate, (req, res) => {
   Procedure.find({}, (err, docs) => {
-    res.send(docs);
+    res.send(docs.reverse());
   });
 });
 
@@ -304,7 +304,7 @@ app.post('/messages', (req, res) => {
     'time',
     'message',
     'fromUserId',
-    'toUserId'
+    'toUserId',
   ]);
 
   const message = new Message(body);
