@@ -13,11 +13,6 @@ const MessageModel = new mongoose.Schema({
     required: true
   },
 
-  time: {
-    type: String,
-    required: true
-  },
-
   message: {
     type: String,
     required: true
