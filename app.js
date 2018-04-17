@@ -97,7 +97,12 @@ app.post('/users', (req, res) => {
   });
 });
 
-app.patch('/users/:id', admin, (req, res) => {
+app.patch('/users/:id', authenticate, (req, res) => {
+  if (req.params.id !== req.user._id && !req.user.isAdmin)
+    res
+      .status(401)
+      .send({ message: 'You must be an admin to access this data' });
+
   const update = _.pick(req.body, [
     'social',
     'dob',
