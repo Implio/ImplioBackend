@@ -75,6 +75,7 @@ app.post('/users', (req, res) => {
   const body = _.pick(req.body, [
     'social',
     'dob',
+    'salary',
     'password',
     'picture',
     'title',
@@ -100,6 +101,7 @@ app.patch('/users/:id', admin, (req, res) => {
   const update = _.pick(req.body, [
     'social',
     'dob',
+    'salary',
     'password',
     'picture',
     'title',

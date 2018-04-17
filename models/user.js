@@ -72,6 +72,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
 
+  salary: {
+    type: Number,
+  },
+
   hours: [
     {
       paid: {
@@ -79,9 +83,14 @@ const UserSchema = new mongoose.Schema({
         default: false,
       },
 
-      title: {
+      shift: {
         type: String,
-        default: 'Hours',
+        default: null,
+      },
+
+      amount: {
+        type: Number,
+        required: true,
       },
 
       start: {
@@ -171,6 +180,7 @@ UserSchema.methods.toJSON = function() {
     'buildingNumber',
     'picture',
     'hours',
+    'salary',
   ]);
 };
 
