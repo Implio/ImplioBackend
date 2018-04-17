@@ -149,7 +149,7 @@ app.delete('/users/:id', admin, (req, res) => {
 });
 
 app.post('/hours', authenticate, (req, res) => {
-  const body = _.pick(req.body, ['title', 'start', 'end']);
+  const body = _.pick(req.body, ['shift', 'amount', 'start', 'end']);
 
   User.findOne({ _id: req.user._id })
     .then(user => {
