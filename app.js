@@ -151,6 +151,8 @@ app.delete('/users/:id', admin, (req, res) => {
 app.post('/hours', authenticate, (req, res) => {
   const body = _.pick(req.body, ['shift', 'amount', 'start', 'end']);
 
+  if (req.user.type !== 'nurse') body.shift = null;
+
   User.findOne({ _id: req.user._id })
     .then(user => {
       user.hours.push(body);
